@@ -92,7 +92,10 @@ class Controller:
 
     def _gap_detector(self, tool_name, result):
         """Analyzes results to inject new tasks into the planner."""
-        if tool_name == "web_search":
+        
+        print(f"GAP DETECTOR: Checking output from '{tool_name}'")
+        
+        if tool_name == "search_web":
             # Simple heuristic: Look for URLs in search results
             urls = re.findall(
                 r'https?://[^\s<>"]+|www\.[^\s<>"]+', str(result))

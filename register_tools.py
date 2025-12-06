@@ -39,12 +39,11 @@ def register(tools):
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text, "html.parser")
 
-        # 1. Still remove the junk first!
+        # 1. Remove the junk 
         for tag in soup(["script", "style", "nav", "footer", "aside"]):
             tag.decompose()
 
-        # 2. Convert to Markdown
-        # This keeps links readable: [Link Text](url)
+        # 2. Convert to Markdown to keep links readable: [Link Text](url)
         markdown_text = md(str(soup), heading_style="ATX")
 
         # 3. Collapse whitespace
