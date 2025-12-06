@@ -2,6 +2,7 @@ import json
 import re
 from agent import DeepResearchAgent
 from registry import ToolRegistry
+import CONSTANTS
 
 
 class Controller:
@@ -95,7 +96,7 @@ class Controller:
         
         print(f"GAP DETECTOR: Checking output from '{tool_name}'")
         
-        if tool_name == "search_web":
+        if tool_name == CONSTANTS.SEARCH_WEB:
             # Simple heuristic: Look for URLs in search results
             urls = re.findall(
                 r'https?://[^\s<>"]+|www\.[^\s<>"]+', str(result))
@@ -105,7 +106,7 @@ class Controller:
                 self.planner.add_task(
                     f"Read content from: {target}", priority=0)
 
-        elif tool_name == "read_url" or tool_name == "extract_text":
+        elif tool_name == CONSTANTS.EXTRACT_TEXT:
             # If text is too short or mentions "see more", we might search again
             if len(result) < 200 and "moved" in result.lower():
                 self.planner.add_task(

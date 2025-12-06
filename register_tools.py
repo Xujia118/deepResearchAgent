@@ -3,11 +3,12 @@ from bs4 import BeautifulSoup
 from ddgs import DDGS
 import requests
 import re
+import CONSTANTS
 
 
 def register(tools):
     @tools.register_tool(
-        name="search_web",
+        name=CONSTANTS.SEARCH_WEB,
         description="Search the web for a query and return the top result URL.",
         parameters={
             "type": "object",
@@ -27,7 +28,7 @@ def register(tools):
             return f"Search failed: {e}"
 
     @tools.register_tool(
-        name="extract_text",
+        name=CONSTANTS.EXTRACT_TEXT,
         description="Extract all text content from a given webpage URL.",
         parameters={
             "type": "object",
