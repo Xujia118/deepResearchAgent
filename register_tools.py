@@ -1,6 +1,8 @@
+from markdownify import markdownify as md
 from bs4 import BeautifulSoup
 from ddgs import DDGS
 import requests
+import re
 
 
 def register(tools):
@@ -34,10 +36,18 @@ def register(tools):
         }
     )
     def extract_text(url: str):
-        print(f"Extracting text from: {url}")
-        try:
-            resp = requests.get(url)
-            soup = BeautifulSoup(resp.text, "html.parser")
-            return soup.get_text(separator="\n")
-        except Exception as e:
-            return f"Failed to extract: {e}"
+        resp = requests.get(url)
+        soup = BeautifulSoup(resp.text, "html.parser")
+
+        # 1. Still remove the junk first!
+        for tag in soup(["script", "style", "nav", "footer", "aside"]):
+            tag.decompose()
+
+        # 2. Convert to Markdown
+        # This keeps links readable: [Link Text](url)
+        markdown_text = md(str(soup), heading_style="ATX")
+
+        # 3. Collapse whitespace
+        clean_text = re.sub(r'\n{3,}', '\n\n', markdown_text).strip()
+
+        return clean_text
