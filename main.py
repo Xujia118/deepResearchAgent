@@ -2,6 +2,7 @@ from agent import DeepResearchAgent
 from registry import ToolRegistry
 from controller import Controller
 from register_tools import register as register_tools
+from planner import TodoList
 from formatter import format_print
 
 
@@ -11,7 +12,9 @@ if __name__ == "__main__":
     registry = ToolRegistry()
     register_tools(registry)
     
-    agent_controller = Controller(agent, registry)
+    task_planner = TodoList()
+
+    agent_controller = Controller(agent, registry, task_planner)
 
     input_list = [
         {
